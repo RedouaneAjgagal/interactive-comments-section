@@ -88,15 +88,3 @@ function deleteData() {
     });
 }
 deleteData();
-
-// Score func
-const upScore = document.querySelectorAll(".upScore");
-function upVote(id, e) {
-    if (!e.classList.contains("active")) {
-        e.classList.add("active");
-        comments[id].score = Number(comments[id].score) + 1;
-        localStorage.content = JSON.stringify(comments);
-        display();
-    }   
-}
-window.upVote= upVote;
