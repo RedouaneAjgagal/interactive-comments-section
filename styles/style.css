@@ -1,0 +1,250 @@
+:root {
+    --backGroundBody: #f5f6fa;
+    --backGroundCards: #fff;
+    --shadow: #e3e5eb56;
+    --primary: #5457b6;
+    --title: #313131;
+    --text: #868686;
+    --lightRed: #ed6468;
+}
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+svg {
+    height: 1rem;
+}
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+h1, h2, h3, h4 {
+    color: var(--title);
+}
+body {
+    font-family: 'Rubik', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--backGroundBody);
+}
+body.no-scroll {
+    overflow: hidden;
+}
+h1 {
+    font-size: 1rem;
+}
+main {
+    width: 100%;
+    max-width: 50rem;
+    margin: auto;
+    padding: 3rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+.allComments {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.comment-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+.question, .replies-container, .post-comment-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    background-color: var(--backGroundCards);
+    border-radius: .5rem;
+    box-shadow: 0 .5rem 1rem var(--shadow);
+    padding: 1.5rem;
+    position: relative;
+}
+/* Vote (Up - Number - Down) */
+.vote {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--backGroundBody);
+    border-radius: .5rem;
+}
+.vote button {
+    padding: .8rem;
+}
+.vote button svg path {
+    fill: #afb3c5;
+    transition: .3s;
+}
+.vote button:hover svg path, .vote button.active svg path {
+    fill: var(--primary);
+}
+.vote span {
+    color: var(--primary);
+    font-weight: 500;
+}
+/* Profile details - Reply button - comment text */
+.comment-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.comment-details .comment-profile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.comment-details .comment-profile .profile-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.comment-details .comment-profile .profile-info img {
+    max-width: 12%;   
+}
+.comment-details .comment-profile .profile-info p {
+    color: var(--text);
+}
+.comment-details .comment-profile .reply button, .comment-details .comment-profile .my-comment-actions .delete, .comment-details .comment-profile .my-comment-actions .edit{
+    display: flex;
+    gap: .5rem;
+    
+}
+.comment-details .comment-profile .reply button span, .comment-details .comment-profile .my-comment-actions .edit span {
+    font-weight: 700;
+    font-size: .97rem;
+    color: var(--primary);
+    transition: .2s ease-in-out;
+}
+.comment-details .comment-profile .reply button svg path, .comment-details .comment-profile .my-comment-actions .edit svg path {
+    fill: var(--primary);
+}
+.comment-details .comment-content {
+    color: var(--text);
+    line-height: 1.6;
+}
+.tag {
+    color: var(--primary);
+    font-weight: 700;
+}
+/* Replies - My reply */
+.replies {
+    padding-left: 2.5rem;
+    border-left: 0.18rem solid #dfdfdf;
+    margin-left: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+.comment-details .comment-profile .profile-info span {
+    padding: .1rem .6rem .2rem;
+    color: var(--backGroundCards);
+    background-color: var(--primary);
+}
+.comment-details .comment-profile .my-comment-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    position: absolute;
+    right: 1.5rem;
+}
+.comment-details .comment-profile .my-comment-actions .delete svg path{
+    fill: var(--lightRed);
+}
+.comment-details .comment-profile .my-comment-actions .delete span {
+    font-weight: 700;
+    font-size: .97rem;
+    color: var(--lightRed);
+}
+/* Delete section */
+.delete-comment {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    gap: 1rem;
+    background-color: #fff;
+    padding: 2rem 1.5rem;
+    border-radius: .5rem;
+    width: 100%;
+    max-width: 24rem;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    box-shadow: none;
+}
+.delete-comment.active {
+    display: flex;
+}
+.delete-comment p {
+    color: var(--text);
+    line-height: 1.6;
+}
+.delete-comment .delete-cta {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.delete-comment .delete-cta .no-cancel, .delete-comment .delete-cta .yes-delete{ 
+    color: var(--backGroundCards);
+    padding: 1rem 2.3rem;
+    border-radius: .5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.delete-comment .delete-cta .no-cancel {
+    background-color: var(--text);
+}
+.delete-comment .delete-cta .yes-delete {
+    background-color: var(--lightRed);
+}
+/* Delete layer */
+.layer {
+    display: none;
+    background: #000000a6;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 9;
+}
+.layer.active {
+    display: block;
+}
+/* Post a comment section */
+.post-comment-container {
+    margin-top: 1.3rem;
+}
+.post-comment-container.active {
+    margin-top: -0.8rem;
+}
+.post-comment-container img {
+    max-width: 6%;
+}
+.post-comment-container label {
+    width: 100%;
+}
+.post-comment-container label textarea {
+    padding: 1rem 1rem 3rem;
+    resize: none;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: .5rem;
+    font-size: inherit;
+    font-family: inherit;
+}
+.post-comment-container button {
+    background-color: var(--primary);
+    color: var(--backGroundCards);
+    padding: .85rem 1.8rem;
+    border-radius: .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: .05rem;
+}
