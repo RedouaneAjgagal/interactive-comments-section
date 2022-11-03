@@ -93,6 +93,7 @@ main {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    width: 100%;
 }
 .comment-details .comment-profile {
     display: flex;
@@ -127,6 +128,9 @@ main {
 .comment-details .comment-content {
     color: var(--text);
     line-height: 1.6;
+}
+.userComment.disable {
+    display: none;
 }
 .tag {
     color: var(--primary);
@@ -227,10 +231,10 @@ main {
 .post-comment-container img {
     max-width: 6%;
 }
-.post-comment-container label {
+form label {
     width: 100%;
 }
-.post-comment-container label textarea {
+form label textarea {
     padding: 1rem 1rem 3rem;
     resize: none;
     width: 100%;
@@ -239,7 +243,7 @@ main {
     font-size: inherit;
     font-family: inherit;
 }
-.post-comment-container button {
+form button {
     background-color: var(--primary);
     color: var(--backGroundCards);
     padding: .85rem 1.8rem;
@@ -247,4 +251,16 @@ main {
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: .05rem;
+}
+/* Update a comment section */
+.update-comment-container{
+    display: none;
+}
+.update-comment-container.active {
+    display: inline;
+}
+.update-comment-container div{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: .5rem;
 }

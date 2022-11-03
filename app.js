@@ -2,9 +2,9 @@ import data from './data.json' assert {type: 'json'};
 import {myCloneComment} from './clones.js';
 // import {othersComment} from './clones.js';
 const form = document.querySelector(".post-comment-container");
-const textarea = document.getElementById("comment");
+const textarea = document.getElementById("addAcomment");
 const commentsWrapper = document.querySelector(".allComments");
-const submitBtn = document.querySelector("form > button");
+const submitBtn = document.querySelector(".post-comment-container > button");
 const deleteSec = document.querySelector(".delete-comment");
 const layer = document.querySelector(".layer");
 const yesDelete = document.querySelector(".yes-delete");
@@ -16,6 +16,7 @@ let submitMode = 'publish';
 let currentEditBtn;
 let currentDeleteBtn;
 let comments;
+
 if (localStorage.content) {
     comments = JSON.parse(localStorage.content);
 } else {
@@ -31,11 +32,7 @@ function formValidation(e) {
         content: textarea.value,
         score: 0
     }
-    if (submitMode === 'publish') {
-        comments.push(commentData);
-    } else {
-        comments[currentEditBtn].content = commentData.content;
-    }
+    comments.push(commentData);
     localStorage.setItem('content', JSON.stringify(comments));
     display();
     textarea.value = '';
@@ -54,14 +51,25 @@ function display() {
 }
 
 // Update comment
-function edite(id) {
-    textarea.value = comments[id].content.trim();
-    textarea.focus();
-    submitMode = 'update';
-    submitBtn.innerHTML = 'Update';
+function edit(id) {
+    const updateForm = document.querySelectorAll(".update-comment-container");
+    const updateArea = document.querySelectorAll(".updateTxt");
+    const myComment = document.querySelectorAll(".myComment");
+    // Display update section
+    myComment[id].classList.add("disable");
+    updateForm[id].classList.add("active");
+    updateArea[id].value = comments[id].content.trim();
+    updateArea[id].focus();
     currentEditBtn = id;
+    // Update data
+    updateForm[id].addEventListener("submit", (e) => {
+        comments[id].content = updateArea[id].value;
+        localStorage.content = JSON.stringify(comments);
+        display();
+        e.preventDefault();
+    });
 }
-window.edite = edite;
+window.edit = edit;
 
 // Delete comment
 function showDelete(id) {

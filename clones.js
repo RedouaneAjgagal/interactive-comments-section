@@ -5,7 +5,7 @@ export function myCloneComment(score, userImg, userName, createdAt, content, id)
 <section class="comment-container">
 <div class="question">
     <div class="vote">
-        <button class="upScore" aria-label="Up vote" onclick="upVote(${id}, this)">
+        <button class="upScore" aria-label="Up vote">
             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                 <path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
             </svg>
@@ -32,7 +32,7 @@ export function myCloneComment(score, userImg, userName, createdAt, content, id)
                     </svg>
                     <span>Delete</span>
                 </button>
-                <button type="button" class="edit" aria-label="edit my comment" onclick="edite(${id})">
+                <button type="button" class="edit" aria-label="edit my comment" onclick="edit(${id})">
                     <svg aria-hidden="true" data-icon="pencil" focusable="false" data-prefix="fas" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                         <path d="M10.2 461L0 512l51-10.2L160 480 420.7 219.3l-128-128L32 352 10.2 461zM315.3 68.7l128 128 34.7-34.7L512 128l-16-16L478.1 94.1 417.9 33.9 400 16 384 0 350.1 33.9 315.3 68.7zM96 416h60.1l-19.8 19.8-75.1 15 15-75.1L96 355.9V416z" />
                     </svg>
@@ -41,7 +41,15 @@ export function myCloneComment(score, userImg, userName, createdAt, content, id)
             </div>
         </div>
         <div class="comment-content">
-            <p class="userComment"><span class="tag"></span>${content}</p>
+            <p class="userComment myComment"><span class="tag"></span>${content}</p>
+            <form class="update-comment-container" novalidate>
+                <label for="updateAcomment">
+                    <textarea class="updateTxt" name="comment" id="updateAcomment" placeholder="Update the comment..."></textarea>
+                </label>
+                <div>
+                    <button type="submit">Update</button>
+                </div>
+            </form>
         </div>
     </article>
 </div>
