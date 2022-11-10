@@ -55,7 +55,7 @@ main {
     flex-direction: column;
     gap: 1.3rem;
 }
-.question, .replies-container, .post-comment-container {
+.question, .replies-container, .post-comment-container, .reply-comment-container {
     display: flex;
     align-items: flex-start;
     gap: 1.5rem;
@@ -64,6 +64,13 @@ main {
     box-shadow: 0 .5rem 1rem var(--shadow);
     padding: 1.5rem;
     position: relative;
+}
+.reply-comment-container {
+    display: none;
+}
+.reply-comment-container.active {
+    display: flex;
+    margin-top: -0.8rem;
 }
 /* Vote (Up - Number - Down) */
 .vote {
@@ -225,10 +232,7 @@ main {
 .post-comment-container {
     margin-top: 1.3rem;
 }
-.post-comment-container.active {
-    margin-top: -0.8rem;
-}
-.post-comment-container img {
+.post-comment-container img, .reply-comment-container img{
     max-width: 6%;
 }
 form label {

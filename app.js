@@ -1,75 +1,148 @@
 import data from './data.json' assert {type: 'json'};
-import {myCloneComment} from './clones.js';
-// import {othersComment} from './clones.js';
+import { myCloneComment } from './clones.js';
+import { othersCloneComment } from './clones.js';
 const form = document.querySelector(".post-comment-container");
 const textarea = document.getElementById("addAcomment");
-const commentsWrapper = document.querySelector(".allComments");
-const submitBtn = document.querySelector(".post-comment-container > button");
 const deleteSec = document.querySelector(".delete-comment");
 const layer = document.querySelector(".layer");
 const yesDelete = document.querySelector(".yes-delete");
 const noCancel = document.querySelector(".no-cancel");
-const section = document.createElement("section");
-section.classList = "comment-container";
-commentsWrapper.appendChild(section);
-let submitMode = 'publish';
-let currentEditBtn;
+const article = document.createElement("article");
+article.classList = "allComments";
+form.before(article);
 let currentDeleteBtn;
-let comments;
+let myComments;
+let myReplies;
+let allComments;
+let userComments;
+let userCommentData;
 
-if (localStorage.content) {
-    comments = JSON.parse(localStorage.content);
-} else {
-    comments = [];
-}
-display();
-form.addEventListener("submit", formValidation);
-function formValidation(e) {
-    let commentData = {
+let commentData;
+function currentUser(commentArea) {
+    commentData = {
         userImg: data.currentUser.image.png,
         userName: data.currentUser.username,
         createdAt: '1 min ago',
-        content: textarea.value,
+        content: commentArea.value,
         score: 0
     }
-    comments.push(commentData);
-    localStorage.setItem('content', JSON.stringify(comments));
+}
+
+// check the Localstorage if i already commented before
+localStorage.content ? myComments = JSON.parse(localStorage.content) : myComments = [];
+
+localStorage.myLocalReplies ? myReplies = JSON.parse(localStorage.myLocalReplies) : myReplies = [];
+
+// Create a static userComments
+function createUserComments() {
+    allComments = '';
+    if (localStorage.usersComments) {
+        userComments = JSON.parse(localStorage.usersComments);
+    } else {
+        // Very First time load Only - Show these comments automatically
+        userComments = [];
+        for (let i = 0; i < data.comments.length; i++) {
+            userCommentData = {
+                userImg: data.comments[i].user.image.png,
+                userName: data.comments[i].user.username,
+                createdAt: data.comments[i].createdAt,
+                content: data.comments[i].content,
+                score: data.comments[i].score,
+                replies: [],
+                id: i
+            };
+            userComments.push(userCommentData);
+            localStorage.setItem('usersComments', JSON.stringify(userComments));
+        }
+    }
+    // Display the static comments on the screen
+    for (let i = 0; i < data.comments.length; i++) {
+        allComments += othersCloneComment(userComments[i].score, userComments[i].userImg, userComments[i].userName, userComments[i].createdAt, userComments[i].content, userComments[i].replies, userComments[i].id);
+    }
+}
+createUserComments();
+
+// Show reply form
+function showReplyArea(id) {
+    const replyForm = document.querySelectorAll(".reply-comment-container");
+    const replyArea = document.querySelectorAll(".reply-comment-container > label > textarea");
+    replyForm[id].classList.add("active");
+    replyArea[id].value = '@' + userComments[id].userName + ' ';
+    replyArea[id].focus();
+    replyFormValidation(id);
+}
+window.showReplyArea = showReplyArea; // using window to call the function because the script is module type
+
+
+// Reply form validation
+function replyFormValidation(id) {
+    const replyForm = document.querySelectorAll(".reply-comment-container");
+    replyForm[id].addEventListener("submit", (e) => {
+        const replyArea = e.target.children[1].children[0];
+        currentUser(replyArea);
+        myReplies.push(commentData);
+        localStorage.setItem('myLocalReplies', JSON.stringify(myReplies));
+        userComments[id].replies.push(myCloneComment(commentData.score, commentData.userImg, commentData.userName, commentData.createdAt, myReplies[myReplies.length - 1].content, myReplies.length - 1));
+        localStorage.usersComments = JSON.stringify(userComments);
+        console.log(myReplies);
+        createUserComments();
+        display();
+        e.preventDefault();
+    });
+}
+
+// display reply comment
+function displayReply() {
+    
+}
+
+// Create comment - Publish
+form.addEventListener("submit", formValidation);
+function formValidation(e) {
+    currentUser(textarea);
+    myComments.push(commentData);
+    localStorage.setItem('content', JSON.stringify(myComments));
+    console.log(myComments);
     display();
     textarea.value = '';
-    submitMode = 'publish';
-    submitBtn.innerHTML = 'Send';
     e.preventDefault();
 }
 
 // Display comment
 function display() {
-    let myComment = '';
-    for (let i = 0; i < comments.length; i++) {
-        myComment += myCloneComment(comments[i].score, comments[i].userImg, comments[i].userName, comments[i].createdAt, comments[i].content, i);
+    for (let i = 0; i < myComments.length; i++) {
+        allComments += myCloneComment(myComments[i].score, myComments[i].userImg, myComments[i].userName, myComments[i].createdAt, myComments[i].content, i);
     }
-    section.innerHTML = myComment;
+    
+    article.innerHTML = allComments;
+    createUserComments();
 }
+display();
 
 // Update comment
-function edit(id) {
-    const updateForm = document.querySelectorAll(".update-comment-container");
-    const updateArea = document.querySelectorAll(".updateTxt");
-    const myComment = document.querySelectorAll(".myComment");
-    // Display update section
-    myComment[id].classList.add("disable");
-    updateForm[id].classList.add("active");
-    updateArea[id].value = comments[id].content.trim();
-    updateArea[id].focus();
-    currentEditBtn = id;
-    // Update data
-    updateForm[id].addEventListener("submit", (e) => {
-        comments[id].content = updateArea[id].value;
-        localStorage.content = JSON.stringify(comments);
-        display();
-        e.preventDefault();
-    });
+function editBtn(arr) {
+    function edit(id, e) {
+        const updateForm = e.closest('.comment-profile').nextElementSibling.children[1];
+        const updateArea = e.closest('.comment-profile').nextElementSibling.children[1].children[0].children[0];
+        const myComment = e.closest('.comment-profile').nextElementSibling.children[0];
+        // Show update section
+        myComment.classList.add("disable");
+        updateForm.classList.add("active");
+        updateArea.focus();
+        updateArea.value = arr[id].content.trim();
+        // Update data
+        updateForm.addEventListener("submit", (e) => {
+            arr[id].content = updateArea.value;
+            localStorage.content = JSON.stringify(arr);
+            console.log(arr);
+            createUserComments();
+            display();
+            e.preventDefault();
+        });
+    }
+    window.edit = edit;
 }
-window.edit = edit;
+editBtn(myComments);
 
 // Delete comment
 function showDelete(id) {
@@ -86,8 +159,8 @@ function hideDelete() {
 }
 function deleteData() {
     yesDelete.addEventListener("click", () => {
-        comments.splice(currentDeleteBtn, 1);
-        localStorage.content = JSON.stringify(comments);
+        myComments.splice(currentDeleteBtn, 1);
+        localStorage.content = JSON.stringify(myComments);
         display();
         hideDelete();
     });
