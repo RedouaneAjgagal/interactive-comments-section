@@ -301,12 +301,6 @@ form label {
         bottom: 1.5rem;
         right: 1.5rem;
     }
-    svg {
-        height: 1.1rem;
-    }
-    .comment-details .comment-profile .my-comment-actions .delete span, .comment-details .comment-profile .reply button span, .comment-details .comment-profile .my-comment-actions .edit span {
-        font-size: 1.05rem;
-    }
     .post-comment-container, .reply-comment-container {
         position: relative;
         padding-bottom: 5rem;
