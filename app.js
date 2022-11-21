@@ -2,7 +2,7 @@ import data from './data.json' assert {type: 'json'};
 import { myComment } from './comment-clones/current-user-comment.js';
 import { usersComment } from './comment-clones/user-comment.js';
 
-const commentData = (userName, userImg, content, createdAt, score, replies, up, down) => {
+const commentData = (userName, userImg, content, createdAt, score, replies, up, down, replyingTo) => {
     const data = {
         user: {
             username: userName,
@@ -17,7 +17,8 @@ const commentData = (userName, userImg, content, createdAt, score, replies, up, 
         scoreMode: {
             up: up,
             down: down
-        }
+        },
+        replyingTo: replyingTo
     }
     return data;
 }
@@ -44,7 +45,7 @@ const publish = () => {
         const textArea = e.target.elements.comment;
         let createdAt = new Date();
         if (textArea.value !== '') {
-            comments.push(commentData(data.currentUser.username, data.currentUser.image.png, textArea.value, createdAt, 0, [], false, false));
+            comments.push(commentData(currentUser.userName, currentUser.userImg, textArea.value, createdAt, 0, [], false, false));
             localStorage.setItem('localComments', JSON.stringify(comments));
         } 
         textArea.value = '';
@@ -185,25 +186,9 @@ const replyFunc = (replyBtn, replyForm, replyingTo, comment) => {
     replyForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const textArea = e.target.elements.comment;
-        const data = {
-            user: {
-                username: currentUser.userName,
-                image: {
-                    png: currentUser.userImg
-                }
-            },
-            content: textArea.value,
-            replyingTo: replyingTo,
-            createdAt: new Date(),
-            score: 0,
-            replies: [],
-            scoreMode: {
-                up: false,
-                down: false
-            }
-        }
+        const createdAt = new Date();
         if (textArea.value !== '') {
-            comment.replies.push(data);
+            comment.replies.push(commentData(currentUser.userName, currentUser.userImg, textArea.value, createdAt, 0, [], false, false, replyingTo));
             localStorage.localComments = JSON.stringify(comments);
         }
         displayData();
