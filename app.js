@@ -267,7 +267,7 @@ const time = (createdAt) => {
         results = calcWeeks < 2 ? `${Math.floor(calcWeeks)} week ago` : `${Math.floor(calcWeeks)} weeks ago`;
     } else if (calcWeeks > 4 && calcMonths < 12) {
         results = calcMonths < 2 ? `${Math.floor(calcMonths)} month ago` : `${Math.floor(calcMonths)} months ago`;
-    } else if (calcMonths > 12) {
+    } else {
         results = calcYears < 2 ? `${Math.floor(calcYears)} year ago` : `${Math.floor(calcYears)} years ago`;
     }
     return results;
