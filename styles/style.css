@@ -300,6 +300,7 @@ form label {
         position: absolute;
         bottom: 1.5rem;
         right: 1.5rem;
+        
     }
     .post-comment-container, .reply-comment-container {
         position: relative;
