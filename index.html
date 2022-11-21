@@ -9,7 +9,7 @@
     <!-- google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- favicon -->
     <link rel="shortcut icon" href="./images/favicon-32x32.png" type="image/x-icon">
     <!-- css -->
@@ -18,27 +18,18 @@
 
 <body>
     <main>
+        <!-- Display all comments here -->
+        <article class="allComments"></article> 
         <!-- post a comment section -->
         <form class="post-comment-container" action="/" novalidate>
             <img src="./images/avatars/image-juliusomo.png" alt="maxblagun profile image">
             <label for="addAcomment">
                 <textarea class="commentTxt" name="comment" id="addAcomment" placeholder="Add a comment..."></textarea>
             </label>
-            <button type="submit">Send</button>
+            <button type="submit" class="submitBtn">Send</button>
         </form>
-        <!-- End of post a comment section -->
-        <!-- delete section -->
-        <section class="delete-comment">
-            <h2>Delete Comment</h2>
-            <p>Are you sure you want to delete this comment? This will remove the comment and can't be undone.</p>
-            <div class="delete-cta">
-                <button class="no-cancel">No, cancel</button>
-                <button class="yes-delete">Yes, delete</button>
-            </div>
-        </section>
-        <div class="layer"></div>
     </main>
     <!-- Scripts -->
-    <script type="module" src="./app.js"></script>
+    <script src="./app.js" type="module"></script>
 </body>
 </html>
