@@ -42,7 +42,7 @@ const publish = () => {
     publishForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const textArea = e.target.elements.comment;
-        let createdAt = new Date().toLocaleString();
+        let createdAt = new Date();
         if (textArea.value !== '') {
             comments.push(commentData(data.currentUser.username, data.currentUser.image.png, textArea.value, createdAt, 0, [], false, false));
             localStorage.setItem('localComments', JSON.stringify(comments));
@@ -194,7 +194,7 @@ const replyFunc = (replyBtn, replyForm, replyingTo, comment) => {
             },
             content: textArea.value,
             replyingTo: replyingTo,
-            createdAt: new Date().toLocaleString(),
+            createdAt: new Date(),
             score: 0,
             replies: [],
             scoreMode: {
