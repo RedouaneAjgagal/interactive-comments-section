@@ -169,19 +169,21 @@ const editData = (btn, content, comment) => {
         <textarea class="commentTxt">${comment.content}</textarea><div class="updateDiv"><button type="submit" class="submitBtn">Update</button></div>
         `
         const textArea = content.querySelector('.commentTxt');
-        textArea.focus();
         const updateBtn = content.querySelector('.submitBtn');
+        textArea.focus();
         updateBtn.addEventListener('click', () => {
             comment.content = textArea.value;
             localStorage.localComments = JSON.stringify(comments);
             displayData();
-        })
+        });
     });
 }
 // reply to a comment
 const replyFunc = (replyBtn, replyForm, replyingTo, comment) => {
     replyBtn.addEventListener('click', () => {
         replyForm.classList.toggle('active');
+        replyForm.elements.comment.focus();
+        replyForm.elements.comment.placeholder = `Reply to ${replyingTo}`;
     });
     replyForm.addEventListener('submit', (e) => {
         e.preventDefault();

@@ -358,6 +358,10 @@ form label {
     .vote button {
         padding: .7rem .5rem;
     }
+    .delete-comment .delete-cta {
+        flex-direction: column;
+        gap: .7rem;
+    }
 }
 @media (max-width:360px) {
     .comment-details .comment-profile .my-comment-actions {
